@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-namespace Input
+namespace CustomInput
 {
     public class PlatformerController : MonoBehaviour
     {
         //private Animator _animator;
-        private InputReader _cs;
+        private AbstractInputReader _cs;
         private CharacterController _cc;
         private bool _grounded;
         private int _layerMask;
@@ -24,7 +24,7 @@ namespace Input
 
         private void Start()
         {
-            _cs = GetComponent<InputReader>();
+            _cs = GetComponent<AbstractInputReader>();
             //_animator = GetComponent<Animator>();
             _cc = GetComponent<CharacterController>();
             _layerMask = LayerMask.GetMask("Ground");
@@ -47,7 +47,7 @@ namespace Input
             if (canVertical) return;
             if (_grounded)
             {
-                _velo.y = 0;
+                if (_velo.y < 0) _velo.y = 0;
                 if (_cs.isJumping) _velo.y = jumpStartSpeed;
             }
             else

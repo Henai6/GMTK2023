@@ -4,23 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Input
+namespace CustomInput
 {
-    public class InputReader : MonoBehaviour
+    public class InputReader : AbstractInputReader
     {
         private GenernalInput inputs;
-        [Header("Configruation")]
-        public bool hideMouse;
-        [Header("Output Signal")]
-        public Vector2 movement;
-        public bool isSprinting;
-        public bool isJumping;
-        public bool isCurShowed;
-        public bool isESC;
 
         private void Awake()
         {
             inputs = new GenernalInput();
+            movement = new Vector2();
         }
         private void OnEnable()
         {

@@ -133,9 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 140741387}
   - component: {fileID: 140741386}
-  - component: {fileID: 140741385}
-  - component: {fileID: 140741384}
   - component: {fileID: 140741383}
+  - component: {fileID: 140741384}
+  - component: {fileID: 140741388}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -187,24 +187,6 @@ MonoBehaviour:
   gravity: 10
   maxFallSpeed: -20
   canVertical: 0
---- !u!114 &140741385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 140741382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f48f4e867873f7844b547694aabd6c1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hideMouse: 1
-  movement: {x: 0, y: 0}
-  isSprinting: 0
-  isJumping: 0
-  isCurShowed: 0
-  isESC: 0
 --- !u!212 &140741386
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -272,6 +254,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &140741388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140741382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb9ff691a52b8fa4e91c7c302a8c686a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hideMouse: 0
+  movement: {x: 0, y: 0}
+  isSprinting: 0
+  isJumping: 0
+  isCurShowed: 0
+  isESC: 0
 --- !u!1 &427726983
 GameObject:
   m_ObjectHideFlags: 0
