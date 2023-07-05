@@ -17,9 +17,9 @@ namespace Input
         public Vector2 _velo;
         [Header("Player Data")]
         public float speed = 5;
-        public float jumpStartSpeed = 3;
-        public float gravity = 1;
-        public float maxFallSpeed = -10;
+        public float jumpStartSpeed = 8;
+        public float gravity = 10;
+        public float maxFallSpeed = -20;
         public bool canVertical;
 
         private void Start()
