@@ -21,6 +21,7 @@ namespace CustomInput
 
             isJumping = Input.GetButtonDown("Jump");
             isSprinting = Input.GetKey(KeyCode.LeftShift);
+            isInteract = Input.GetKey(KeyCode.E);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace CustomInput
         public bool isSprinting;
         public bool isJumping;
         public bool isCurShowed;
+        public bool isInteract;
         public bool isESC;
     }
 }

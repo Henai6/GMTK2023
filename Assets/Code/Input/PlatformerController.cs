@@ -9,7 +9,7 @@ namespace CustomInput
     {
         //private Animator _animator;
         private AbstractInputReader _cs;
-        private CharacterController _cc;
+        private Rigidbody2D _rb;
         private bool _grounded;
         private int _layerMask;
         private Collider2D c;
@@ -26,8 +26,8 @@ namespace CustomInput
         {
             _cs = GetComponent<AbstractInputReader>();
             //_animator = GetComponent<Animator>();
-            _cc = GetComponent<CharacterController>();
-            _layerMask = LayerMask.GetMask("Ground");
+            _rb = GetComponent<Rigidbody2D>();
+            _layerMask = LayerMask.GetMask("Ground") + LayerMask.GetMask("Default");
         }
 
         // Update is called once per frame
@@ -40,10 +40,12 @@ namespace CustomInput
 
             JumpAndGravity();
             Move();
-            _cc.Move(_velo * Time.deltaTime);
+            _rb.velocity = _velo;
+            if (_velo.x > 0.7) EventDispatcher.Instance.IndexedEvent(0);
         }
         private void JumpAndGravity()
         {
+            
             if (canVertical) return;
             if (_grounded)
             {
