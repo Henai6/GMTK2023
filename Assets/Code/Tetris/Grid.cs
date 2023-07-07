@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum gameDirection { Left, Up, Right }
+public enum gameDirection { Left, Up, Right, Down, Unused }
 
 public class Grid
 {
