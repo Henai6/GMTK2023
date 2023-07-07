@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OptionsMenuScene.unity
     guid: 2940d574206e4a7458c748930f352469
+  - enabled: 1
+    path: Assets/Scenes/EmptyTestScene/2DController.unity
+    guid: 81265efd34ce0a549b6d9a66dfbc7d06
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 65b5bb26ef338f94fa940abb8c9ca625, type: 2}
