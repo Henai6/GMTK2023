@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Piece
 {
@@ -27,6 +28,8 @@ public class Piece
         //Check for stop
         Fall();
         //throw new NotImplementedException();
+        //check out of boundry
+        if (!BoundryCheck()) DestroyAndLostHealth();
         return false;
     }
 
@@ -81,10 +84,56 @@ public class Piece
         }
     }
 
+    private bool BoundryCheck()
+    {
+        foreach(Tile t in form)
+        {
+            if (t.position.x < -OuterGrid.width  || t.position.x >= OuterGrid.width ) return false;
+            if (t.position.y < -OuterGrid.height || t.position.y >= OuterGrid.height) return false;
+        }
+        return true;
+    }
+
+    private void DestroyAndLostHealth()
+    {
+        //Lost Health
+        ScoringManager.Instance.LostHealth();
+        Debug.Log("lost 1 hp");
+
+        //destory code
+        foreach (Tile t in form) GameObject.Destroy(t.gameObject);
+        
+        //not finished, this obj self is not distroyed.
+    }
     public static Piece GetRandomPiece()
     {
+        int i = (int)UnityEngine.Random.Range(0, 7);
         //Select random piece (currently hardcoded)
-        Piece piece = new pSquare();
+        Piece piece;
+        switch (i)
+        {
+            case 0:
+                piece = new pIpiece();
+                break;
+            case 1:
+                piece = new pJpiece();
+                break;
+            case 2:
+                piece = new pLpiece();
+                break;
+            case 3:
+                piece = new pSpiece();
+                break;
+            case 4:
+                piece = new pZpiece();
+                break;
+            case 5:
+                piece = new pTpiece();
+                break;
+            default:
+                piece = new pSquare();
+                break;
+        }
 
         //Get direction
         System.Array dirValues = System.Enum.GetValues(typeof(gameDirection));
