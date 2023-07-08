@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Piece
@@ -31,9 +32,25 @@ public class Piece
 
     public virtual void Fall()
     {
-        //Check for out of bounds
-        //Check for hit bucket
-        switch (dir)
+        Move(dir);
+
+        //Hit an existing tile in bucket
+        if (Bucket.player.GetGrid() != null && Bucket.player.GetGrid().Any(p => form.Any(t => t.position == p)))
+        {
+            Move(gDir.Opposite(dir));
+            Debug.Log("this should be stopped");
+        } 
+        //Hit the botttom line
+        else if (form.Any(t => Bucket.player.HitBottomLine(t.position, dir)))
+        {
+            Move(gDir.Opposite(dir));
+            Debug.Log("this should be stopped");
+        }
+    }
+
+    private void Move(gameDirection gDir)
+    {
+        switch (gDir)
         {
             //Game direction here refers to which direction the piece are spawned from
             case gameDirection.Left:

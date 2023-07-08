@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 
 //This will be MonoBehaviour, so as to allow visual movement
@@ -26,7 +28,7 @@ public class Tile : MonoBehaviour
 }
 
 
-public struct Position
+public struct Position : IEquatable<Position>
 {
     public Position(int X, int Y)
     {
@@ -38,4 +40,20 @@ public struct Position
     public int y;
 
     public override string ToString() => $"({x}, {y})";
+
+    public override bool Equals(object o)
+    {
+        if (o == null)
+            return false;
+        return Equals((Position)o);
+    }
+
+
+    public bool Equals(Position other)
+    {
+        return (x == other.x && y == other.y);
+    }
+
+    public static bool operator ==(Position left, Position right) => left.Equals(right);
+    public static bool operator !=(Position left, Position right) => !left.Equals(right);
 }

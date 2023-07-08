@@ -6,6 +6,7 @@ using UnityEngine;
 
 public enum gameDirection { Up, Left, Right, Down } 
 
+
 public class Bucket : MonoBehaviour
 {
     public static Bucket player; //I have not bothered ensuring it is a singleton
@@ -103,6 +104,20 @@ public class Bucket : MonoBehaviour
                 return false;
         }
 
-        return bottomLine.Any(p => p.x == other.x && p.y == other.y);
+        return bottomLine.Any(p => p == other);
+    }
+}
+public class gDir
+{
+    public static gameDirection Opposite(gameDirection inp)
+    {
+        switch (inp)
+        {
+            case gameDirection.Up: return gameDirection.Down;
+            case gameDirection.Left: return gameDirection.Right;
+            case gameDirection.Right: return gameDirection.Left;
+            case gameDirection.Down: return gameDirection.Up;
+            default: throw new Exception();
+        }
     }
 }
