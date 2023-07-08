@@ -56,4 +56,5 @@ public struct Position : IEquatable<Position>
 
     public static bool operator ==(Position left, Position right) => left.Equals(right);
     public static bool operator !=(Position left, Position right) => !left.Equals(right);
+    public static Position operator +(Position left, Position right) => new Position(left.x + right.x, left.y + right.y);
 }

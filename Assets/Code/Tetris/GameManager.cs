@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
             curTime = 0f;
             OnTick();
         }
-        //PlayerInput() //Check for player input and handle it 
     }
 
     private void OnTick()

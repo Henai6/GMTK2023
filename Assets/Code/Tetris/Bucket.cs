@@ -3,8 +3,9 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public enum gameDirection { Up, Left, Right, Down } 
+public enum gameDirection { Up, Right, Down, Left } 
 
 
 public class Bucket : MonoBehaviour
@@ -43,6 +44,31 @@ public class Bucket : MonoBehaviour
             pos.y += (int)Input.GetAxisRaw("Vertical");
         }
         this.transform.position = OuterGrid.TranslateToGridCoordinates(pos);
+
+        Rotate();
+    }
+
+    private void Rotate()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            this.transform.RotateAround(OuterGrid.TranslateToGridCoordinates(pos + pivot), Vector3.back, 90f);
+
+            int intermediate = ((int)dir + 1) % gDir.dirCount;
+            dir = (gameDirection)intermediate;
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            this.transform.RotateAround(OuterGrid.TranslateToGridCoordinates(pos + pivot), Vector3.back, -90f);
+            if (dir - 1 < 0 )
+            {
+                dir = (gameDirection) gDir.dirCount - 1;
+            } 
+            else
+            {
+                dir = dir - 1;
+            }
+        }
     }
 
     public Position[] GetGrid()
@@ -75,26 +101,25 @@ public class Bucket : MonoBehaviour
 
         switch (dir, otherDir)
         {
-            //Not sure if bottomLine is correct with the -1
-            case (gameDirection.Up, gameDirection.Down):
+            case (gameDirection.Up, gameDirection.Up):
                 for (int i = 0; i < width; i++)
                 {
-                    bottomLine[i] = new Position(pos.x - (width - 1)/2 + i, pos.y - 1);
+                    bottomLine[i] = new Position(pos.x - (width - 1)/2 + i, pos.y);
                 }
                 break;
-            case (gameDirection.Down, gameDirection.Up):
+            case (gameDirection.Down, gameDirection.Down):
                 for (int i = 0; i < width; i++)
                 {
                     bottomLine[i] = new Position(pos.x - (width - 1) / 2 + i, pos.y);
                 }
                 break;
-            case (gameDirection.Left, gameDirection.Right):
+            case (gameDirection.Left, gameDirection.Left):
                 for (int i = 0; i < width; i++)
                 {
-                    bottomLine[i] = new Position(pos.x - 1, pos.y - (width - 1) / 2 + i);
+                    bottomLine[i] = new Position(pos.x, pos.y - (width - 1) / 2 + i);
                 }
                 break;
-            case (gameDirection.Right, gameDirection.Left):
+            case (gameDirection.Right, gameDirection.Right):
                 for (int i = 0; i < width; i++)
                 {
                     bottomLine[i] = new Position(pos.x, pos.y - (width - 1) / 2 + i);
@@ -109,6 +134,7 @@ public class Bucket : MonoBehaviour
 }
 public class gDir
 {
+    public static int dirCount = System.Enum.GetValues(typeof(gameDirection)).Length;
     public static gameDirection Opposite(gameDirection inp)
     {
         switch (inp)
