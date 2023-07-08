@@ -19,4 +19,9 @@ public class SceneButton : MonoBehaviour, IPointerClickHandler
             SceneManager.LoadScene(sceneName);
         }
     }
+
+    public void BackToStartMenu()
+    {
+        SceneManager.LoadScene("StartMenuScene");
+    }
 }
