@@ -18,7 +18,7 @@ namespace CustomInput
             if (_isReseted && _ir.movement.sqrMagnitude > 0.1f)
             {
                 _isReseted = false;
-                gameDirection dir = gameDirection.Unused;
+                gameDirection? dir = null;
                 if (_ir.movement.x < -0.8f) dir = gameDirection.Left;
                 if (_ir.movement.y > 0.8f) dir = gameDirection.Up;
                 if (_ir.movement.x > 0.8f) dir = gameDirection.Right;

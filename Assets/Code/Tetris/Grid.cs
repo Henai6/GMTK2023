@@ -2,19 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum gameDirection { Left, Up, Right, Down, Unused }
+public enum gameDirection { Left, Up, Right, Down } 
 
-public class Grid
+public class Grid //Rename to bucket and create a new grid class for an outer grid or world grid.
 {
     //singleton
     private static Grid instance;
     public static Grid Instance => instance ?? (instance = new Grid());
 
-    public bool[,] middleGrid = new bool[10, 20];
-    public bool[,] leftGrid = new bool[10, 10];
-    public bool[,] rightGrid = new bool[10, 10];
+    public Tile[,] middleGrid = new Tile[10, 20];
 
-    public gameDirection direction = gameDirection.Up;
+    //public gameDirection direction = gameDirection.Up;
 
     //On creation
     public Grid() { }
