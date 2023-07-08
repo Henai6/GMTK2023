@@ -37,12 +37,16 @@ public class Bucket : MonoBehaviour
             float horizontalInput = Input.GetAxisRaw("Horizontal");
             float verticalInput = Input.GetAxisRaw("Vertical");
 
+            Vector3 bucketPos = this.transform.position;
             if (horizontalInput != 0)
             {
-                Vector3 bucketPos = this.transform.position;
                 bucketPos.x += OuterGrid.tileScale * horizontalInput;
-                this.transform.position = bucketPos;
             }
+            if (verticalInput != 0)
+            {
+                bucketPos.y += OuterGrid.tileScale * verticalInput;
+            }
+            this.transform.position = bucketPos;
         }
     }
 }
