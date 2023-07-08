@@ -14,7 +14,7 @@ public class ScoreWindow : MonoBehaviour
 
     private void Update()
     {
-        if (text != null) { Debug.Log("exist"); text.text = ScoringManager.Instance.GetScore().ToString(); }
+        if (text != null) { text.text = ScoringManager.Instance.GetScore().ToString(); }
         else text = GetComponent<TextMeshProUGUI>();
     }
 }

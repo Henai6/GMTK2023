@@ -1,18 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace CustomInput
 {
     public class TetrisController : MonoBehaviour
     {
         private AbstractInputReader _ir;
-        public bool _isReseted;
+        private bool _isReseted;
+        private bool _isLevelHorizontal;
+        public Tile[] form; //use contain level base
+        public Tile[] addedForm; //used contain added pieces
+        public GameObject tileHolder;
+        public Sprite sprite;
+        private void Awake()
+        {
+            this.transform.position = new Vector3(0.5f,0,0);
+            form = new Tile[10];
+            for (int i = 0; i < 10; i++)
+            {
+                Position p = new Position(i, 0);
+                GameObject obj = Instantiate(tileHolder, OuterGrid.TranslateToGridCoordinates(p), Quaternion.identity);
+                obj.GetComponent<SpriteRenderer>().sprite = this.sprite;
+                form[i] = obj.GetComponent<Tile>();
+                form[i].Initialize(p);
+            }
+        }
         private void Start()
         {
             _ir = GetComponent<AbstractInputReader>();
         }
-
         private void Update()
         {
             if (_isReseted && _ir.movement.sqrMagnitude > 0.1f)
@@ -26,16 +44,16 @@ namespace CustomInput
                 switch (dir)
                 {
                     case gameDirection.Left:
-                        //Debug.Log("moving left");
+                        foreach (Tile t in form) t.AddX(-1);
                         break;
                     case gameDirection.Up:
-                        //Debug.Log("moving up");
+                        foreach (Tile t in form) t.AddY(1);
                         break;
                     case gameDirection.Right:
-                        //Debug.Log("moving right");
+                        foreach (Tile t in form) t.AddX(1);
                         break;
                     case gameDirection.Down:
-                        //Debug.Log("moving down");
+                        foreach (Tile t in form) t.AddY(-1);
                         break;
                     default:
                         Debug.Log("error dir");
@@ -44,9 +62,17 @@ namespace CustomInput
                 EventDispatcher.Instance.MoveEvent((int)dir);
             }
             if (_ir.movement.sqrMagnitude < 0.1f) _isReseted = true;
-            if (_ir.isJumping) Debug.Log("going to rotate!!!");
+            if (_ir.isJumping)
+            {
+                string s = "";
+                foreach (Tile t in form) {
+                    s += t.position.ToString();
+                }
+            }
         }
-
-
+        private void Rotate()
+        {
+            
+        } 
     }
 }
