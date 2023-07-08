@@ -39,8 +39,6 @@ public class Basictetris : MonoBehaviour
     //From where does the next piece spawn?
     private int xSelection;
 
-    private float TickSpeed = 0.5f;
-
 
     // Start is called before the first frame update
     void Start()
