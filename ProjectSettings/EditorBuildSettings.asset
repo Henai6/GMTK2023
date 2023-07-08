@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StaffMenuScene.unity
     guid: a4c4efea2c8e5cb499b9398ec445cdc7
+  - enabled: 1
+    path: Assets/Scenes/TetrisGameScene.unity
+    guid: 9c6c186c6a38eb54e99b8712e707aedd
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 65b5bb26ef338f94fa940abb8c9ca625, type: 2}

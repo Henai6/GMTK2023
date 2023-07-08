@@ -21,6 +21,7 @@ public class EventDispatcher
         }
     }
 
+    //0 = lostHealth, 1 = getHealth
     public event Action<int> onIndexedEvent;
     public void IndexedEvent(int i)
     {

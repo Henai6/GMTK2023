@@ -17,4 +17,8 @@ public class ScoreTest : MonoBehaviour
     {
         ScoringManager.Instance.ClearScore();
     }
+    public void Lost1hp()
+    {
+        ScoringManager.Instance.LostHealth();
+    }
 }
