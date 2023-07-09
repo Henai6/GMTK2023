@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class InGameUI : MonoBehaviour
 {
     public GameObject gameOverPanel;
+    public GameObject pausePanel;
     public GameObject quitButton;
     public GameObject sureButton;
     public GameObject cancelButton;
@@ -34,8 +35,18 @@ public class InGameUI : MonoBehaviour
 
     public void CancelButton()
     {
+        Time.timeScale = 1f;
+        pausePanel.SetActive(false);
+
         sureButton.SetActive(false);
         cancelButton.SetActive(false);
         quitButton.SetActive(true);
+
+    }
+
+    public void PauseButton()
+    {
+        Time.timeScale = 0f;
+        pausePanel.SetActive(true);
     }
 }

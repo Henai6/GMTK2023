@@ -24,6 +24,7 @@ public class ScoringManager
     }
     public int GetHealth()
     {
+        EventDispatcher.Instance.IndexedEvent(1);
         return _health;
     }
     public void LostHealth()

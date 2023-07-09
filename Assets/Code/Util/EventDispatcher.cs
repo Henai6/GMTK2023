@@ -21,7 +21,8 @@ public class EventDispatcher
         }
     }
 
-    //0 = lostHealth, 1 = getHealth
+    //0 = lostHealth, 1 = getHealth (for these two, plz use ScoringManager.Instance.LostHealth()/GetHealth()),
+    //2 = pieces attached, 3 = OnTick, 4 = line completed, 5 = gameover
     public event Action<int> onIndexedEvent;
     public void IndexedEvent(int i)
     {
@@ -41,4 +42,6 @@ public class EventDispatcher
         //for(int i=0; i<4; i++) onMoveEvent?.Invoke(i);
         onAllMoveEvent?.Invoke();
     }
+
+
 }
