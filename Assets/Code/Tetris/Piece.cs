@@ -23,20 +23,17 @@ public class Piece
     /// <returns>Returns true if block is touching the end</returns>
     public virtual bool ResolveTick()
     {
-        //Should have:
-        //Fall
-        //Check for stop
-        Fall();
-        //throw new NotImplementedException();
-        //check out of boundry
+        bool retValue = Fall();
+
         if (BoundryCheck()) {
             DestroyAndLostHealth();
             return true;
         }
-        return false;
+
+        return retValue;
     }
 
-    public virtual void Fall()
+    public virtual bool Fall()
     {
         Move(dir);
 
@@ -46,14 +43,17 @@ public class Piece
             {
                 Move(gDir.Opposite(dir));
                 Bucket.player.AttachPiece(form);
+                return true;
             } 
             //Hit the botttom line
             else if (form.Any(t => Bucket.player.HitBottomLine(t.position, dir)))
             {
                 Move(gDir.Opposite(dir));
                 Bucket.player.AttachPiece(form);
+                return true;
             }
         }
+        return false;
     }
 
     private void Move(gameDirection gDir)

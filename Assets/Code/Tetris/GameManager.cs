@@ -37,8 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void OnTick()
     {
-        List<Piece> temp = curPieces;
-        foreach(Piece piece in temp)
+        foreach(Piece piece in curPieces.ToList())
         {
             if (piece != null) { 
                 if (piece.ResolveTick())
