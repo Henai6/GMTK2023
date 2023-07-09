@@ -133,7 +133,7 @@ public class Bucket : MonoBehaviour
                 {
                     if (dir == gameDirection.Left || dir == gameDirection.Right)
                     {
-                        tileList.Add(new Position(pos.x + (j + 1) * xDir, pos.y + i * yDir - paddleWidth * yDir));
+                        tileList.Add(new Position(pos.x + (j + 1) * xDir, pos.y - i * yDir + paddleWidth * yDir));
                     }
                     else
                     {
@@ -185,6 +185,12 @@ public class Bucket : MonoBehaviour
 
     public void AttachPiece(Tile[] newTiles)
     {
+        var test = GetGrid();
+        Debug.LogFormat("before, {0}", pos);
+        foreach (Position p in test)
+        {
+            Debug.Log(p);
+        }
         //Missing check for out of range!
         foreach (Tile tile in newTiles)
         {   
