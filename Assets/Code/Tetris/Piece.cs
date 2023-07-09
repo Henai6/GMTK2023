@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -118,6 +119,10 @@ public class Piece
         //Lost Health
         ScoringManager.Instance.LostHealth();
         Debug.Log("remain hp:" + ScoringManager.Instance.GetHealth());
+        foreach(Tile t in form)
+        {
+            GameObject.Destroy(t.gameObject);
+        }
     }
     public static Piece GetRandomPiece()
     {
@@ -151,7 +156,8 @@ public class Piece
 
         //Get direction
         System.Array dirValues = System.Enum.GetValues(typeof(gameDirection));
-        piece.dir = (gameDirection)dirValues.GetValue(UnityEngine.Random.Range(0, dirValues.Length));
+        //piece.dir = (gameDirection)dirValues.GetValue(UnityEngine.Random.Range(0, dirValues.Length));
+        piece.dir = gameDirection.Right; //Temp test
 
         return piece;
     }

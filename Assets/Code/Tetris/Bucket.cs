@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Unity.VisualScripting;
 
 public enum gameDirection { Up, Right, Down, Left } 
 
@@ -13,7 +14,7 @@ public class Bucket : MonoBehaviour
     public static Bucket player; //I have not bothered ensuring it is a singleton
 
     private gameDirection dir = gameDirection.Up;
-    private Position pivot = new Position(1, 0); //Looks better when 1 is added to x
+    private Position pivot = new Position(0, 0);
     private Position pos = new Position(0, 0);
     public bool materialized = false;
     private float opacity;
@@ -114,7 +115,7 @@ public class Bucket : MonoBehaviour
         }
     }
 
-    public Position[] GetGrid()
+    public List<Position> GetGrid()
     {
         List<Position> tileList = new List<Position>();
 
@@ -122,19 +123,26 @@ public class Bucket : MonoBehaviour
         int xDir = 1;
         if (dir == gameDirection.Down) { yDir = -1; }
         if (dir == gameDirection.Left) { xDir = -1; }
+        int paddleWidth = ((grid.GetLength(0) - 1) / 2) * xDir;
 
-        for (int i = 0; i > grid.GetLength(0); i++)
+        for (int i = 0; i < grid.GetLength(0); i++)
         {
-            for (int j = 0; j > grid.GetLength(1); j++)
+            for (int j = 0; j < grid.GetLength(1); j++)
             {
                 if (grid[i,j] != null)
                 {
-                    tileList.Add(new Position(pos.x + i * xDir, pos.y + j * yDir));
-                    //^^ maybe not ideal, as each tile in the bucket causes a object to be created every tick
+                    if (dir == gameDirection.Left || dir == gameDirection.Right)
+                    {
+                        tileList.Add(new Position(pos.x + (j + 1) * xDir, pos.y + i * yDir - paddleWidth * yDir));
+                    }
+                    else
+                    {
+                        tileList.Add(new Position(pos.x + i * xDir - paddleWidth * xDir, pos.y + (j + 1) * yDir));
+                    }
                 }
             }
         }
-        return null;
+        return tileList;
     }
 
     public bool HitBottomLine(Position other, gameDirection otherDir)
@@ -177,6 +185,7 @@ public class Bucket : MonoBehaviour
 
     public void AttachPiece(Tile[] newTiles)
     {
+        //Missing check for out of range!
         foreach (Tile tile in newTiles)
         {   
             tile.transform.SetParent(this.transform);
