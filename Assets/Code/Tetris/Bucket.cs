@@ -15,6 +15,9 @@ public class Bucket : MonoBehaviour
     private gameDirection dir = gameDirection.Up;
     private Position pivot = new Position(0, 0);
     private Position pos = new Position(0, 0);
+    public bool materialized = false;
+    private float opacity;
+    private SpriteRenderer[] bucketSprites;
 
     public Tile[,] grid = new Tile[9, 19];
 
@@ -31,21 +34,54 @@ public class Bucket : MonoBehaviour
     void Start()
     {
         player = this;
+        bucketSprites = this.GetComponentsInChildren<SpriteRenderer>();
+        opacity = bucketSprites[0].color.a;
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Horizontal"))
+        if (Input.GetKey(KeyCode.Space))
         {
-            pos.x += (int)Input.GetAxisRaw("Horizontal");
+            //Materialze
+            materialized = true;
+            foreach (SpriteRenderer sp in bucketSprites)
+            {
+                Color temp = sp.color;
+                temp.a = 1f;
+                sp.color = temp;
+            }
         }
-        if (Input.GetButtonDown("Vertical"))
+        else
         {
-            pos.y += (int)Input.GetAxisRaw("Vertical");
-        }
-        this.transform.position = OuterGrid.TranslateToGridCoordinates(pos);
+            if (materialized) {
+                materialized = false;
 
-        Rotate();
+                foreach (SpriteRenderer sp in bucketSprites)
+                {
+                    Color temp = sp.color;
+                    temp.a = opacity;
+                    sp.color = temp;
+                }
+            }
+
+            //Movement
+            if (Input.GetButtonDown("Horizontal"))
+            {
+                pos.x += (int)Input.GetAxisRaw("Horizontal");
+            }
+            if (Input.GetButtonDown("Vertical"))
+            {
+                pos.y += (int)Input.GetAxisRaw("Vertical");
+            }
+            this.transform.position = OuterGrid.TranslateToGridCoordinates(pos);
+
+            Rotate();
+        }
+    }
+
+    private void Materialize()
+    {
+
     }
 
     private void Rotate()
