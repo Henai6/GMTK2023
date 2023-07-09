@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
     private float curTime = 0f;
     private List<Piece> curPieces = new List<Piece>();
     public GameObject tilePrefab;
-    public AudioSource _as;
-    public List<AudioClip> clips;
     private void Start()
     {
         AddPiece();
@@ -27,7 +25,7 @@ public class GameManager : MonoBehaviour
         curTime += Time.deltaTime;
         if (curTime > tickSpeed)
         {
-            _as.PlayOneShot(clips[0]);
+            EventDispatcher.Instance.IndexedEvent(3);
             curTime = 0f;
             OnTick();
         }
