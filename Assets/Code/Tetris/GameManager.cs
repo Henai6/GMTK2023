@@ -7,6 +7,8 @@ using UnityEngine.Audio;
 //This should maybe be the only MonoBehaviour object
 public class GameManager : MonoBehaviour
 {
+    private static string[] _path = {"Red", "Green", "Blue", "Yellow", "Purple", "Cyan", "Orange"};
+
     public static GameManager instance;
     private float tickSpeed = 0.5f;
     private float curTime = 0f;
@@ -85,8 +87,18 @@ public class GameManager : MonoBehaviour
             tiles[i].Initialize(spawnPos);
         }
 
+        int color = (int)UnityEngine.Random.Range(0, 7);
+
+        Sprite ranSprite = Resources.Load<Sprite>(_path[color]);
+        foreach (Tile t in tiles)
+        {
+            SpriteRenderer sr = t.gameObject.GetComponent<SpriteRenderer>();
+            sr.sprite = ranSprite;
+        }
+
         //The tiles are clumbed up at the spawn position, shape them in 'Initialize()'
         newPiece.Initialize(tiles, spawnPos);
+
         curPieces.Add(newPiece);
     }
 }
