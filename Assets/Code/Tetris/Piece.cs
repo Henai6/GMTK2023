@@ -156,8 +156,7 @@ public class Piece
         
         //Get direction
         System.Array dirValues = System.Enum.GetValues(typeof(gameDirection));
-        //piece.dir = (gameDirection)dirValues.GetValue(UnityEngine.Random.Range(0, dirValues.Length));
-        piece.dir = gameDirection.Right; //Temp test
+        piece.dir = (gameDirection)dirValues.GetValue(UnityEngine.Random.Range(0, dirValues.Length));
 
         return piece;
     }
