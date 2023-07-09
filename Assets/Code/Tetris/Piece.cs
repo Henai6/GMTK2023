@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using UnityEngine;
@@ -127,7 +128,6 @@ public class Piece
     public static Piece GetRandomPiece()
     {
         int i = (int)UnityEngine.Random.Range(0, 7);
-        //Select random piece (currently hardcoded)
         Piece piece;
         switch (i)
         {
@@ -153,7 +153,7 @@ public class Piece
                 piece = new pSquare();
                 break;
         }
-
+        
         //Get direction
         System.Array dirValues = System.Enum.GetValues(typeof(gameDirection));
         //piece.dir = (gameDirection)dirValues.GetValue(UnityEngine.Random.Range(0, dirValues.Length));
