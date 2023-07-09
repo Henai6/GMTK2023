@@ -29,7 +29,10 @@ public class Piece
         Fall();
         //throw new NotImplementedException();
         //check out of boundry
-        if (!BoundryCheck()) DestroyAndLostHealth();
+        if (!BoundryCheck()) {
+            DestroyAndLostHealth();
+            return true;
+        }
         return false;
     }
 
@@ -98,7 +101,7 @@ public class Piece
     {
         //Lost Health
         ScoringManager.Instance.LostHealth();
-        Debug.Log("lost 1 hp");
+        Debug.Log("remain hp:" + ScoringManager.Instance.GetHealth());
 
         //destory code
         foreach (Tile t in form) GameObject.Destroy(t.gameObject);

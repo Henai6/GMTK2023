@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 
 //This should maybe be the only MonoBehaviour object
 public class GameManager : MonoBehaviour
@@ -10,7 +11,8 @@ public class GameManager : MonoBehaviour
     private float curTime = 0f;
     private Piece curPiece; //Set at some point
     public GameObject tilePrefab;
-
+    public AudioSource _as;
+    public List<AudioClip> clips;
     private void Start()
     {
         SetPiece();
@@ -21,6 +23,7 @@ public class GameManager : MonoBehaviour
         curTime += Time.deltaTime;
         if (curTime > tickSpeed)
         {
+            _as.PlayOneShot(clips[0]);
             curTime = 0f;
             OnTick();
         }
