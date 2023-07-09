@@ -694,9 +694,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 34
+  field of view: 97.2
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 12.36
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1057,6 +1057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88de396b11205e74ba8f1d5e41de5374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materialized: 0
 --- !u!1 &679729494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1517,13 +1518,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_Sprite: {fileID: 21300000, guid: de0f4de3209ba2c42874afb3c5329c15, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 40, y: 40}
+  m_Size: {x: 60, y: 60}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1620,9 +1621,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 851238842137716666, guid: bdad6d6a40242d044a454f2d783a0b51, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 4392828352345076613, guid: bdad6d6a40242d044a454f2d783a0b51, type: 3}
       propertyPath: m_Name
       value: Bucket
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639293972899026853, guid: bdad6d6a40242d044a454f2d783a0b51, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7802595071713952349, guid: bdad6d6a40242d044a454f2d783a0b51, type: 3}
       propertyPath: m_RootOrder

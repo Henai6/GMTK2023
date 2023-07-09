@@ -13,7 +13,7 @@ public class Bucket : MonoBehaviour
     public static Bucket player; //I have not bothered ensuring it is a singleton
 
     private gameDirection dir = gameDirection.Up;
-    private Position pivot = new Position(0, 0);
+    private Position pivot = new Position(1, 0); //Looks better when 1 is added to x
     private Position pos = new Position(0, 0);
     public bool materialized = false;
     private float opacity;
@@ -42,26 +42,15 @@ public class Bucket : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            //Materialze
-            materialized = true;
-            foreach (SpriteRenderer sp in bucketSprites)
+            if (!materialized)
             {
-                Color temp = sp.color;
-                temp.a = 1f;
-                sp.color = temp;
+                ChangeOppacity(false);
             }
         }
         else
         {
             if (materialized) {
-                materialized = false;
-
-                foreach (SpriteRenderer sp in bucketSprites)
-                {
-                    Color temp = sp.color;
-                    temp.a = opacity;
-                    sp.color = temp;
-                }
+                ChangeOppacity(true);
             }
 
             //Movement
@@ -79,9 +68,27 @@ public class Bucket : MonoBehaviour
         }
     }
 
-    private void Materialize()
+    private void ChangeOppacity(bool transparent)
     {
-
+        materialized = !transparent;
+        if (transparent)
+        {
+            foreach (SpriteRenderer sp in bucketSprites)
+            {
+                Color temp = sp.color;
+                temp.a = opacity;
+                sp.color = temp;
+            }
+        }
+        else
+        {
+            foreach (SpriteRenderer sp in bucketSprites)
+            {
+                Color temp = sp.color;
+                temp.a = 1f;
+                sp.color = temp;
+            }
+        }
     }
 
     private void Rotate()
@@ -166,6 +173,44 @@ public class Bucket : MonoBehaviour
         }
 
         return bottomLine.Any(p => p == other);
+    }
+
+    public void AttachPiece(Tile[] newTiles)
+    {
+        foreach (Tile tile in newTiles)
+        {   
+            tile.transform.SetParent(this.transform);
+            Position relativeGrid = this.pos - tile.position;
+            
+            int paddleWidth = (grid.GetLength(0) - 1) / 2;
+            switch (dir)
+            {
+                //This was awful to debug
+                case gameDirection.Left:
+                    int tempL = relativeGrid.x;
+                    relativeGrid.x = Math.Abs(relativeGrid.y - paddleWidth);
+                    relativeGrid.y = tempL - 1;
+                    break;
+                case gameDirection.Up:
+                    relativeGrid.y *= -1;
+                    int tempY = relativeGrid.y;
+                    relativeGrid.x = Math.Abs(relativeGrid.x - paddleWidth);
+                    relativeGrid.y = tempY - 1;
+                    break; 
+                case gameDirection.Right:
+                    int tempX = relativeGrid.y;
+                    relativeGrid.y = relativeGrid.x * (-1) - 1;
+                    relativeGrid.x = tempX + paddleWidth;
+                    break;
+                case gameDirection.Down:
+                    int tempY2 = relativeGrid.y;
+                    relativeGrid.x += paddleWidth;
+                    relativeGrid.y = tempY2 - 1;
+                    break;
+            }
+            grid[relativeGrid.x, relativeGrid.y] = tile;
+        }
+        GameManager.instance.AddPiece();
     }
 }
 public class gDir

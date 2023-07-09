@@ -29,7 +29,7 @@ public class Piece
         Fall();
         //throw new NotImplementedException();
         //check out of boundry
-        if (!BoundryCheck()) {
+        if (BoundryCheck()) {
             DestroyAndLostHealth();
             return true;
         }
@@ -40,17 +40,19 @@ public class Piece
     {
         Move(dir);
 
-        //Hit an existing tile in bucket
-        if (Bucket.player.GetGrid() != null && Bucket.player.GetGrid().Any(p => form.Any(t => t.position == p)))
-        {
-            Move(gDir.Opposite(dir));
-            Debug.Log("this should be stopped");
-        } 
-        //Hit the botttom line
-        else if (form.Any(t => Bucket.player.HitBottomLine(t.position, dir)))
-        {
-            Move(gDir.Opposite(dir));
-            Debug.Log("this should be stopped");
+        if (Bucket.player.materialized == true) { 
+            //Hit an existing tile in bucket
+            if (Bucket.player.GetGrid() != null && Bucket.player.GetGrid().Any(p => form.Any(t => t.position == p)))
+            {
+                Move(gDir.Opposite(dir));
+                Bucket.player.AttachPiece(form);
+            } 
+            //Hit the botttom line
+            else if (form.Any(t => Bucket.player.HitBottomLine(t.position, dir)))
+            {
+                Move(gDir.Opposite(dir));
+                Bucket.player.AttachPiece(form);
+            }
         }
     }
 
@@ -91,10 +93,24 @@ public class Piece
     {
         foreach(Tile t in form)
         {
-            if (t.position.x < -OuterGrid.width  || t.position.x >= OuterGrid.width ) return false;
-            if (t.position.y < -OuterGrid.height || t.position.y >= OuterGrid.height) return false;
+            switch (dir)
+            {
+                case gameDirection.Left:
+                    if (t.position.x > OuterGrid.width) return true;
+                    break; 
+                /*case gameDirection.Up:
+                    if (t.position.y > OuterGrid.height) return true;
+                    break; */
+                case gameDirection.Right:
+                    if (t.position.x < -OuterGrid.width) return true;
+                    break; 
+                case gameDirection.Down:
+                    if (t.position.y < -OuterGrid.height) return true;
+                    break;
+                default: break;
+            }
         }
-        return true;
+        return false;
     }
 
     private void DestroyAndLostHealth()
@@ -102,11 +118,6 @@ public class Piece
         //Lost Health
         ScoringManager.Instance.LostHealth();
         Debug.Log("remain hp:" + ScoringManager.Instance.GetHealth());
-
-        //destory code
-        foreach (Tile t in form) GameObject.Destroy(t.gameObject);
-        
-        //not finished, this obj self is not distroyed.
     }
     public static Piece GetRandomPiece()
     {

@@ -7,15 +7,17 @@ using UnityEngine.Audio;
 //This should maybe be the only MonoBehaviour object
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     private float tickSpeed = 0.5f;
     private float curTime = 0f;
-    private Piece curPiece; //Set at some point
+    private List<Piece> curPieces = new List<Piece>();
     public GameObject tilePrefab;
     public AudioSource _as;
     public List<AudioClip> clips;
     private void Start()
     {
-        SetPiece();
+        AddPiece();
+        instance = this;
     }
 
     void Update()
@@ -27,51 +29,64 @@ public class GameManager : MonoBehaviour
             curTime = 0f;
             OnTick();
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            AddPiece();
+        }
     }
 
     private void OnTick()
     {
-        if (curPiece.ResolveTick())
+        List<Piece> temp = curPieces;
+        foreach(Piece piece in temp)
         {
-            SetPiece();
+            if (piece != null) { 
+                if (piece.ResolveTick())
+                {
+                    curPieces.Remove(piece); //removes reference to old piece
+                    AddPiece();
+                }
+            }
         }
     }
 
-    private void SetPiece()
+    public void AddPiece()
     {
         //Get piece
-        curPiece = Piece.GetRandomPiece();
+        Piece newPiece = Piece.GetRandomPiece();
 
         //Get spawn position
         Position spawnPos;
-        switch (curPiece.dir)
+        int spawnAxis = Random.Range(-OuterGrid.width + 2, OuterGrid.width - 2); //Assuming width and height is equal
+        switch (newPiece.dir)
         {
             //These positions are temporary, should be more random and width and height should come from grid
             case gameDirection.Left:
-                spawnPos = new Position(-10, 0); 
+                spawnPos = new Position(-OuterGrid.width, spawnAxis); 
                 break;
             case gameDirection.Right:
-                spawnPos = new Position(10, 0);
+                spawnPos = new Position(OuterGrid.width, spawnAxis);
                 break; 
             case gameDirection.Up:
-                spawnPos = new Position(0, 10);
+                spawnPos = new Position(spawnAxis, OuterGrid.height);
                 break;
             case gameDirection.Down:
-                spawnPos = new Position(0, -10);
+                spawnPos = new Position(spawnAxis, -OuterGrid.height);
                 break;
             default:
                 throw new System.NotImplementedException();
         }
 
         //Spawn tiles
-        Tile[] tiles= new Tile[curPiece.tileCount];
-        for (int i = 0; i < curPiece.tileCount; i++)
+        Tile[] tiles= new Tile[newPiece.tileCount];
+        for (int i = 0; i < newPiece.tileCount; i++)
         {
             tiles[i] = Instantiate(tilePrefab, OuterGrid.TranslateToGridCoordinates(spawnPos), Quaternion.identity).GetComponent<Tile>();
             tiles[i].Initialize(spawnPos);
         }
 
         //The tiles are clumbed up at the spawn position, shape them in 'Initialize()'
-        curPiece.Initialize(tiles, spawnPos); 
+        newPiece.Initialize(tiles, spawnPos);
+        curPieces.Add(newPiece);
     }
 }
